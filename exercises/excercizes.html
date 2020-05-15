@@ -157,22 +157,25 @@
         </div>
         <br>
 
-
-        <!-- 4) Let the user enter a class name and enter true/false for another class (create some example classes) and attach the classes -->
+        <p> 4) Let the user enter a class name and enter true/false for another class (create some example classes) and attach the classes</p>
         <div>
             <input type="text" v-model="newClass">
             <input type="text" v-model="isVisible">
             <div :class="['visible', newClass, {green: isVisible}]"></div>
         </div>
-        <!-- 5) Repeat 3) but now with values for styles (instead of class names). Attach the respective styles.  -->
+
+        <p> 5) Repeat 3) but now with values for styles (instead of class names). Attach the respective styles.</p>
         <div>
-            <input type="text">
-            <div></div>
+            <input type="text" v-model="newStyle.backgroundColor">
+            <div :style="newStyle"></div>
         </div>
-        <!-- 6) Create a simple progress bar with setInterval and style bindings. Start it by hitting the below button. -->
+
+        <p> 6) Create a simple progress bar with setInterval and style bindings. Start it by hitting the below button.</p>
         <div>
-            <button>Start Progress</button>
-            <div></div>
+            <button @click="progressWidth=1">Start Progress</button>
+            <div :style="progressStyle100"> 
+                <div :style="progressStyle"></div>
+            </div>
         </div>
     </div>
 
@@ -186,6 +189,35 @@
                 userInput: null,
                 newClass: null,
                 isVisible: null,
+                newStyle: {
+                    width: '100px',
+                    height: '50px',
+                    backgroundColor: 'grey' 
+                },
+                progressWidth: 0,
+                progressStyle100: {
+                    marginTop: '10px',
+                    width: '100px',
+                    height: '5px',
+                    backgroundColor: 'lightgrey' 
+                }
+            },
+            computed:{
+                progressStyle: function() {
+                    return {
+                        marginTop: '10px',
+                        width: this.progressWidth + 'px',
+                        height: '5px',
+                        backgroundColor: 'grey' }
+                    } 
+            },
+            watch: {
+                progressWidth: function() {
+                    var vm = this;
+                    setTimeout(function() {
+                       vm.progressWidth<100 ? vm.progressWidth += 10 : null;
+                    }, 300);
+                }
             },
             methods:{
                 startEffect: function() {
