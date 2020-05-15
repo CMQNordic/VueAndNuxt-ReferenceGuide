@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+
+	<title>Vue examples</title>
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+
+	<div id="app">
+
+		<p> My name is {{ name }} and I am {{ age }} years. </p>
+		<button @click="age += 1" style="margin-bottom: 30px;">Increase My Age</button> (resets at 30)
+
+		<br>
+		<button @click="counter++">Increase Counter</button><br>
+		<button @click="dummy++">Increase Dummy</button><span>Dummy: {{ dummy }}</span><br>
+		<p>Result (computed vs. method)<br>Counter: {{ getCounterByComputed }} | {{ getCounterByMethod() }}<br>
+		Runs: {{ runsComputed }} | {{ runsMethod }} <br>
+		Note! Method executed even if no change in counter.<br> 
+		Computed executed when needed.</p>
+
+		<br>
+		Press a key:
+		<input type="text" @keyup="keyPressed = $event.target.value">
+		<p>Pressed key(s): {{ keyPressed }}</p>
+
+		<br>
+		Write something:
+		<input type="text" v-model="writtenText">
+		<p>Written text: {{ writtenText }}</p>
+
+		<br>
+		<p>Hoover over the element:</p>
+		<div :class="['grey-box', {'grey-box--wide': visible}]" 
+			 @mouseover="visible=true"
+			 @mouseout="visible=false"></div>
+
+		<br>
+		Write "wide":
+		<input type="text" v-model="writtenText">
+		<div :class="['grey-box', writtenText]" 
+		@mouseover="visible=true"
+		@mouseout="visible=false"></div>
+		
+	</div>
+
+	<script>
+	var vm = new Vue({
+		el: '#app',
+		data: {
+			name: 'Martin',
+			age: 42,
+			counter: 0,
+			dummy: 0,
+			runsComputed: 0,
+			runsMethod: 0,
+			visible: false,
+			keyPressed: null,
+			writtenText: null,
+			image: 'https://dlpng.com/png/5442992',
+			arrayX: [
+				{ text: 'Text one' },
+				{ text: 'Text two' }
+			],
+		},
+		computed: {
+			getCounterByComputed: function () { 
+					this.runsComputed ++;
+					console.log('Computed executed');
+					return this.counter;
+			}
+		},
+		methods: {
+			getCounterByMethod: function () { 
+				this.runsMethod ++;
+				console.log('Method executed');
+				return this.counter;
+			}
+		}
+	})
+	</script>
+
+	<style>
+		.grey-box {
+			width:70px;
+			height: 20px;
+			background-color: grey;
+			margin-bottom: 20px;
+		}
+
+		.grey-box--wide {
+			width: 150px;
+		}
+
+		.wide {
+			width: 150px !important;
+		}
+	</style>
+</body>
+
+</html>
