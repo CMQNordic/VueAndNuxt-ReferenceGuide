@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<script src="https://unpkg.com/vue/dist/vue.js"></script>
+</head>
+
+<body>
+	<!-- HTML Template -->
+	<div id="app">
+		Name:<input v-model="name">
+		<button @click="age++">Increase age</button>
+		<p> My name is <span :class="{visible: name.length<=0}">{{ name }}</span> and I am {{ age }} years.</p>
+		<p> Name and age are: {{ getName }} | {{ getAge() }}</p>
+	</div>
+
+	<!-- Vue instance -->
+	<script>
+		var vm = new Vue({
+			el: '#app',
+			data: {
+				name: '',
+				age: null,
+			},
+			computed: {
+				getName: function () { return this.name }
+			},
+			methods: {
+				getAge: function () { return this.age }
+			},
+			watch: {
+				age: function () {
+					(this.age == 3 || this.age == 6) ? alert('age is now ' + this.age) : null
+				}
+			}
+		})
+	</script>
+
+	<!-- Styles -->
+	<style>
+		.visible {
+			display: inline-block;
+			height: 18px;
+			width: 40px;
+			background-color: lightgrey;
+			border: 1px dotted black;
+		}
+	</style>
+
+</body>
+
+</html>

@@ -117,47 +117,74 @@ Vue is the most popular, loved and growing framework of Javascript.
 
 Vue.js is a system that enables us to render DOM data using straightforward HTML template syntax and bind DOm and Template to each other:
 
+Vue.js API [here](https://vuejs.org/v2/api/)
+
+![Basic Vue syntax](assets\images\basic_example.JPG)
+
 __HTML__
 ```html
-<div id="app">
-	<p> My name is {{ name }} and I am {{ age*2 }} years. </p>
-	<button v-on:click="counter++">Increase Counter</button>
-	<button v-on:click="increaseDummy()">Increase Dummy</button>
-	<p>Result {{ getCounter_C }} | {{ getCounter_M() }}</p>
-</div>
+	<div id="app">
+		Name:<input v-model="name">
+		<button @click="age++">Increase age</button>
+		<p> My name is <span :class="{visible: name.length<=0}">{{ name }}</span> and I am {{ age }} years.</p>
+		<p> Name and age are: {{ getName }} | {{ getAge() }}</p>
+	</div>
 ```
-__JS__
+__Javascript__
 ```javascript
-var app = new Vue({
-  el: '#app',
-  data: {
-	name: 'Martin',
-	age: 12,
-	counter: 0,
-	dummy: 0,
-	image: 'https://dlpng.com/png/5442992',
-	keyDown: function(i, event) {alert(event.target.value)},
-	arrayX: [
-		{text: 'Text one'},
-		{text, 'Text two'}
-	]
-  },
-  computed: {
-	getCounter_C: function() { return this.counter }
-  },
-  methods : {
-	increaseDummy: function() { this.dummy++ },
-	getCounter_M: function() { return this.counter } // ES5 style
-	getCounter2() { return this.counter } //ES6 style (not all browser yet)
-  }
+var vm = new Vue({
+	el: '#app',
+	data: {
+		name: '',
+		age: null,
+	},
+	computed: {
+		getName: function () { return this.name }
+	},
+	methods: {
+		getAge: function () { return this.age }
+	},
+	watch: {
+		age: function () {
+			(this.age == 3 || this.age == 6) ? alert('age is now ' + this.age) : null
+		}
+	}
 })
+```
+__CSS__
+```css
+<style>
+	.visible {
+		display: inline-block;
+		height: 18px;
+		width: 40px;
+		background-color: lightgrey;
+		border: 1px dotted black;
+	}
+</style>
 ```
 
 __`el`__ - Id in HTML to refer toward witch this vue instance data refers to.<br>
 __`data`__ - Variables/properties storing data. Data is not reactive. No calculations possible here.<br>
 __`computed`__ - Properties/functions that is executed ONLY when variables they depend on are affected.<br>
-__`method`__ - Functions that are executed when called.<br>
+__`methods`__ - Functions that are executed when called.<br>
 __`watch`__ - Methods that are executed only if a computed or data property change.<br>
+
+__Vue.js__ instance, created by constructor `vm1 = new Vue({})` takes parameters like data or methods and proxies those to be part of view object. We can  access those by calling vm1.<parameters>. We can access this vm1 object from other instances or normal java script functions.
+
+Reach this in vue instance and outside. To reach this properties outside vue instance use __`$this`__.
+
+Properties in Vue instance starting with $ are the native vuejs objects we can access.: 
+__$el__: el object in constructor -
+__$data__: the data object in constructor - vm1.$data.<property>
+
+__$refs__: The `ref` that we can set on each HTML element to refer to it. Note that using $refs is not recommended for setting DOm elements as Vue template when render will overwrite it. Still it is good to use $ref for accessing native elements in DOM. Example: 
+```
+<button ref=""MyButton>Press</button>
+vm1.$refs.MyButton.InnerText="Press me"
+```
+
+![Vue instance lifecycle](assets\images\instance_lifecycly.jpg)
 
 __Computed vs Method.__ In example above when "Increase Counter" is pressed both `getCounterByComputed` and `getCounterByMethod` functions are executed - as expected. But when "Increase Dummy" is pressed only `getCounterByMethod` is executed. This because Vue checks if a computed function has dependency to any data property that changed before running the function. Here not, as dummy is not used in `getCounterByMethod` function, therefore no need to run this function. Performance saver! 
 
@@ -172,6 +199,11 @@ Examples:<br>
 Vue will concatenate the classes, those defined normally by class and those through are bound to vue with v-bind.
 Key/Value pairs are objects where value is boolean and if true then the class is applied.
 
+
+<br><p align=right><a id="CLI-in-vue" href="#table-of-content">↩ Back To Top</a></p>
+#### [Vue CLI]()
+
+![Vue CLI](assets\images\vue_cli.JPG)
 
 <br><p align=right><a id="directives-in-vue" href="#table-of-content">↩ Back To Top</a></p>
 #### [Directives]()
