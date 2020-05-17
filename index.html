@@ -11,77 +11,135 @@
 <body>
 
 	<div id="app">
-
-		<p> My name is {{ name }} and I am {{ age }} years. </p>
-		<button @click="age += 1" style="margin-bottom: 30px;">Increase My Age</button> (resets at 30)
+		<strong>▸ Binding text with {{ }}</strong><br>
+		<button @click="person.age += 1">Increase My Age</button>
+		My name is <strong>{{ person.name }}</strong>. I'm <strong>{{ person.age }} </strong>years.<br>
+		
+		<br>
+		<strong>▸ Binding to href attributes</strong><br>
+		Press this link - <a target="_blank" :href="link">Google.com</a><br>
 
 		<br>
-		<button @click="counter++">Increase Counter</button><br>
-		<button @click="dummy++">Increase Dummy</button><span>Dummy: {{ dummy }}</span><br>
-		<p>Result (computed vs. method)<br>Counter: {{ getCounterByComputed }} | {{ getCounterByMethod() }}<br>
-		Runs: {{ runsComputed }} | {{ runsMethod }} <br>
-		Note! Method executed even if no change in counter.<br> 
-		Computed executed when needed.</p>
+		<strong>▸ Computed vs Methods functions.</strong><br>
+		<button @click="counter++">Increase Counter</button>
+		<button @click="dummy++">Increase Dummy</button> Counter={{ counter }} | Dummy={{ dummy }}<br>
+		Computed function run={{ runsComputed }}. Returns counter={{ getCounterByComputed }}<br>
+		Method function run={{ runsMethod }}. Returns counter={{ getCounterByMethod() }}<br>
+		Note! Method runs in vain executed even when counter not changed.
+		Computed function executes ONLY when need, when counter changed.<br> 
 
 		<br>
+		<strong>▸ Listen to key events/special key.</strong><br>
 		Press a key:
-		<input type="text" @keyup="keyPressed = $event.target.value">
-		<p>Pressed key(s): {{ keyPressed }}</p>
-
+		<input type="text" 
+			@keyup="keyPressed = $event.target.value" 
+			@keyup.enter="word = $event.target.value"><br>
+		Pressed key(s): {{ keyPressed }}<br>
+		Word (press enter): {{ word }}<br>
+		
 		<br>
+		<strong>▸ Bind to input filed value.</strong><br>
 		Write something:
-		<input type="text" v-model="writtenText">
-		<p>Written text: {{ writtenText }}</p>
-
+		<input type="text" v-model="writtenText"><br>
+		Written text: {{ writtenText }}<br>
+		
 		<br>
-		<p>Hoover over the element:</p>
+		<strong>▸ Toggle/bind a class.</strong><br>
+		Hoover over the element:
 		<div :class="['grey-box', {'grey-box--wide': visible}]" 
-			 @mouseover="visible=true"
-			 @mouseout="visible=false"></div>
-
-		<br>
-		Write "wide":
+			@mouseover="visible=true" 
+			@mouseout="visible=false">
+		</div>
+		Write class name "wide":
 		<input type="text" v-model="writtenText">
 		<div :class="['grey-box', writtenText]" 
-		@mouseover="visible=true"
-		@mouseout="visible=false"></div>
-		
+			@mouseover="visible=true"
+			@mouseout="visible=false">
+		</div>
+
+		<strong>▸ Toggle/bind to style attribute.</strong><br>
+		Write a color (i.e green):<br>
+		<input type="text" v-model="newStyle.backgroundColor">
+		<div style="background-color: grey; width: 100px; height: 20px;" 
+			 :style="newStyle">
+		</div>
+
+		<br>
+		<strong>▸ Conditional - if/else</strong><br>
+		if (boolA) "ONE" else if (boolB) "TWO" else "THREE" <br>
+		Show ONE (write true): <input type="text" v-model="showONE"><br>
+		Show TWO (write true):<input type="text" v-model="showTWO"><br>
+		Otherwise THREE will be shown.
+		Result:<br>
+		<span v-if="showONE">ONE</span>
+		<span v-else-if="showTWO">TWO</span>
+		<span v-else>THREE</span><br>
+
+		<br>
+		<strong>▸  - for</strong><br>
+		<ul>
+			<li v-for="person in persons">{{ person }}</li>
+		</ul>
+		<ul>
+			<li v-for="person in persons">
+				<div v-for="value in person">{{ value }}</div>
+			</li>
+		</ul>
+		<ul>
+			<li v-for="(person, i) in persons"> Index {{i}} <br>
+				<span v-for="(value,key,index) in person"> {{key}}: {{ value }} ({{ index }}) | </span>
+			</li>
+		</ul>
+
+
 	</div>
 
 	<script>
 	var vm = new Vue({
-		el: '#app',
-		data: {
-			name: 'Martin',
-			age: 42,
-			counter: 0,
-			dummy: 0,
-			runsComputed: 0,
-			runsMethod: 0,
-			visible: false,
-			keyPressed: null,
-			writtenText: null,
-			image: 'https://dlpng.com/png/5442992',
-			arrayX: [
-				{ text: 'Text one' },
-				{ text: 'Text two' }
-			],
-		},
-		computed: {
-			getCounterByComputed: function () { 
-					this.runsComputed ++;
+			el: '#app',
+			data: {
+				person: {
+					name: 'Martin',
+					age: 42,
+				},
+				persons: [
+					{name: 'Martin', age: 20},
+					{name: 'Ewa',age: 21}
+				],
+				link: 'https://www.google.com',
+				counter: 0,
+				dummy: 0,
+				runsComputed: 0,
+				runsMethod: 0,
+				visible: false,
+				keyPressed: null,
+				word: null,
+				writtenText: null,
+				newStyle:{
+					backgroundColor: 'grey'
+				},
+				showONE: null,
+				showTWO: null,
+				arrayX: [
+					{ text: 'Text one' },
+					{ text: 'Text two' }
+				],
+			},
+			computed: {
+				getCounterByComputed: function () {
+					this.runsComputed++;
 					console.log('Computed executed');
 					return this.counter;
+				}
+			},
+			methods: {
+				getCounterByMethod: function () {
+					this.runsMethod++;
+					console.log('Method executed');
+					return this.counter;
+				}
 			}
-		},
-		methods: {
-			getCounterByMethod: function () { 
-				this.runsMethod ++;
-				console.log('Method executed');
-				return this.counter;
-			}
-		}
-	})
+		})
 	</script>
 
 	<style>
