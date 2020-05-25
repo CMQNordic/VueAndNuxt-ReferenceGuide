@@ -145,7 +145,8 @@ If absolute path to <you-project-name> contains & characters you might experienc
 ### [__Basics of Vue.js__]()
 ---
 [Attributes](#attributes-vue) 
-◦ [Vue.js instance](#vue-instance-vue) 
+◦ [Instances](#vue-instance-vue) 
+◦ [Components](#components-vue) 
 ◦ [Computed vs Method](#computed-vs-method-vue)
 ◦ [Event modifiers](#event-modifies-vue)
 ◦ [Key modifiers](#key-modifies-vue)
@@ -294,8 +295,34 @@ __<a id="attributes-vue">Attributes.</a>__
 > __`props`__ - Data passed to a child component where it then is available as a property.<br>
 > __`mounted`__ - instance life-cycle hook. In the mounted hook, you will have full access to the reactive component, templates, and rendered DOM (via. this.$el)
 
-__<a id="vue-instance-vue">Vue.js instance.</a>__<br> 
+__<a id="vue-instance-vue">Vue.js instances.</a>__<br> 
 Created by `const vm = new Vue({})` takes an object with parameters like data or methods as input. We can  access those by calling `vm.<parameters>`. We can access this `vm` object from other instances or normal java script functions.
+
+__<a id="components-vue">Components.</a>__<br> 
+Vue components is an extension of an instance. Given a name it can be reused in the instance root several times. This is the main building block together with instance of an Vue application.
+
+Naming can be as _kebab-case_ `my-component-name` or _PascalCase_ . When defining a component with PascalCase, you can use either case when referencing its custom elements.
+
+Components can be registered globally and accessed within all children:<br>
+`Vue.component('my-component-name', { /* ...template... */ })`<br>
+or locally within the instance only to access in this instance:
+```javascript
+<script>
+// If using ES2015 modules, such as through Babel & Webpack
+// That might look more like:
+import componentY from './ComponentY.vue'
+var componentX = { /* ...template... */ }
+
+
+new Vue({
+  el: '#app',
+  components: {
+    'component-x': componentX,
+    'ComponentY': componentY
+  }
+})
+<template>
+```
 
 __<a id="computed-vs-method-vue">Computed vs Method.</a>__<br> 
 In example above when "Increase Counter" is pressed both `getCounterByComputed` and `getCounterByMethod` functions are executed - as expected. But when "Increase Dummy" is pressed only `getCounterByMethod` is executed. This because Vue checks if a computed function has dependency to any data property that changed before running the function. Here not, as dummy is not used in `getCounterByMethod` function, therefore no need to run this function. Performance saver! 
@@ -335,7 +362,7 @@ props: {
 }
 ```
 
-__<a id="native-properties-in-vue">Native properties in this.</a>__<br>
+__<a id="native-properties-in-vue">Native properties in _`this`_.</a>__<br>
 Properties in __`this`__ (Vue instance struct) starting with `$` are the native vue objects we can access.<br>
 
 
@@ -365,7 +392,7 @@ There are two ways to bind the class or css style to an HTML object. Vue will co
 // Class bound as key/value objects where key is either true/false deciding if this class shall be enabled or not.
 <div class="some-class" :class={'class-Name1': true, className2: false}></div>
 ```
-__<a id="life-hooks-in-vue">Vue instance life-hooks.</a>__<br> 
+__<a id="life-hooks-in-vue">Life-hooks.</a>__<br> 
 Read more here about understanding [Vue.js Lifecycle Hooks](https://www.digitalocean.com/community/tutorials/vuejs-component-lifecycle)
 ![Vue instance lifecycle](assets\images\instance_lifecycly.jpg)
 
