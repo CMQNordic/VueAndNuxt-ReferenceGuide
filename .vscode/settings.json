@@ -1,5 +1,0 @@
-{
-	"git.ignoreLimitWarning": true,
-	"vetur.format.options.tabSize": 4,
-	"vetur.format.defaultFormatter.html": "prettier"
-}
