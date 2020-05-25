@@ -6,8 +6,8 @@
 // that replaces element "app" in index.html.
 
 import Vue from 'vue';
-import App from './App.vue'
-//import App from './App_2.vue';
+//import App from './App.vue'
+import App from './App_2.vue';
 
 export const serverEventBus = new Vue();
 export const appEventBus = new Vue();
