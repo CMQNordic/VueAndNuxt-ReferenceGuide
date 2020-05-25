@@ -39,7 +39,8 @@ build/Release
 
 # Dependency directories
 **/node_modules/
-jspm_packages/
+jspm_packages/ 
+.vscode/*
 
 
 # Snowpack dependency directory (https://snowpack.dev/)
