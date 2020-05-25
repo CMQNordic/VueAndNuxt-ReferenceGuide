@@ -1,0 +1,4 @@
+This is a project that is build when watching Vue course.
+
+HTML files in root use basic static Vue and can be run directly in browser (i.e run in Live Server)
+
